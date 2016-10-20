@@ -1,15 +1,47 @@
-//your variable declarations here
+SpaceShip heart_of_gold = new SpaceShip();
 public void setup() 
 {
-  //your code here
+  size(600, 600);
+  background(0);
 }
 public void draw() 
 {
-  //your code here
+  background(0);
+  heart_of_gold.move();
+  heart_of_gold.accelerate(0.25);
+  heart_of_gold.rotate(1);
+  heart_of_gold.show();
 }
-class SpaceShip //extends Floater  
+class SpaceShip extends Floater  
 {   
-    //your code here
+    public SpaceShip()
+    {
+      corners = 4;
+      xCorners = new int[4];
+      yCorners = new int[4];
+      xCorners[0] = 5;
+      yCorners[0] = 0;
+      xCorners[1] = -5;
+      yCorners[1] = 5;
+      xCorners[2] = -2;
+      yCorners[2] = 0;
+      xCorners[3] = -5;
+      yCorners[3] = -5;
+      myColor = color(255);
+      myCenterX = myCenterY = 300;
+      myPointDirection = 0;
+      myDirectionX = myDirectionY = 0;
+    }
+    public void setX(int x) {myCenterX = x;}
+    public int getX() {return (int) myCenterX;}
+    public void setY(int y) {myCenterY = y;}  
+    public int getY() {return (int) myCenterY;}  
+    public void setDirectionX(double x) {myDirectionX = x;}   
+    public double getDirectionX() {return myDirectionX;}
+    public void setDirectionY(double y) {myDirectionY = y;}
+    public double getDirectionY() {return myDirectionY;}
+    public void setPointDirection(int degrees) {myPointDirection = degrees;}
+    public double getPointDirection() {return myPointDirection;}
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
