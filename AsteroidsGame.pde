@@ -1,16 +1,55 @@
 SpaceShip heart_of_gold = new SpaceShip();
+boolean[] keys;
+Star[] stars = new Star[100];
 public void setup() 
 {
   size(600, 600);
   background(0);
+  keys = new boolean[4];
+  for (int i = 0; i < keys.length; i++)
+    keys[i] = false;
+  for (int o = 0; o < stars.length; o++)
+  {
+    stars[o] = new Star();
+  }
 }
 public void draw() 
 {
   background(0);
   heart_of_gold.move();
-  heart_of_gold.accelerate(0.25);
-  heart_of_gold.rotate(1);
+  if (keys[0])
+    heart_of_gold.accelerate(0.25);
+  if (keys[1])
+    heart_of_gold.accelerate(-0.25);
+  if (keys[2])
+    heart_of_gold.rotate(-4);
+  if (keys[3])
+    heart_of_gold.rotate(4);
+  if (keyPressed && key == ' ')
+    heart_of_gold.improbabilityDrive();
   heart_of_gold.show();
+}
+public void keyPressed()
+{
+  if (key == 'w')
+    keys[0] = true;
+  if (key == 's')
+    keys[1] = true;
+  if (key == 'a')
+    keys[2] = true;
+  if (key == 'd')
+    keys[3] = true;
+}
+public void keyReleased()
+{
+    if (key == 'w')
+    keys[0] = false;
+  if (key == 's')
+    keys[1] = false;
+  if (key == 'a')
+    keys[2] = false;
+  if (key == 'd')
+    keys[3] = false;
 }
 class SpaceShip extends Floater  
 {   
@@ -42,6 +81,25 @@ class SpaceShip extends Floater
     public double getDirectionY() {return myDirectionY;}
     public void setPointDirection(int degrees) {myPointDirection = degrees;}
     public double getPointDirection() {return myPointDirection;}
+    public void improbabilityDrive()
+    {
+      setX((int)(Math.random()*600));
+      setY((int)(Math.random()*600));
+      setDirectionY(0);
+      setDirectionX(0);
+      setPointDirection((int)(Math.random()*360));
+    }
+}
+class missiles extends Floater
+{
+  public missiles()
+  {
+    corners = 7;
+    xCorners = new int[7];
+    yCorners = new int[7];
+    xCorners[0] = 10;
+    yCorners[0] = 0;
+  }
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -119,4 +177,22 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     endShape(CLOSE);  
   }   
 } 
-
+class Star
+{
+  private int myX, myY;
+  public star()
+  {
+    myX = 0;
+    myY = 0;
+  }
+  public setX(int x) {myX = x;}
+  public int getX() {return myX;}
+  public setY (int y) {myY = y;}
+  public int getY() {return myY;}
+  public void show()
+  {
+    stroke(255);
+    point(myx, myY);
+    stroke(0);
+  }
+}
