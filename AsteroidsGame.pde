@@ -90,16 +90,32 @@ class SpaceShip extends Floater
       setPointDirection((int)(Math.random()*360));
     }
 }
-class missiles extends Floater
+class bullets extends Floater
 {
-  public missiles()
+  public bullets()
   {
-    corners = 7;
-    xCorners = new int[7];
-    yCorners = new int[7];
-    xCorners[0] = 10;
+    corners = 4;
+    xCorners = new int[4];
+    yCorners = new int[4];
+    xCorners[0] = 5;
     yCorners[0] = 0;
+    xCorners[1] = 0;
+    yCorners[1] = 5;
+    xCorners[2] = -5;
+    yCorners[2] = 0;
+    xCorners[3] = -5;
+    yCorners[3] =0;
   }
+  public void setX(int x) {myCenterX = x;}
+  public int getX() {return (int)myCenterX;}
+  public void setY(int y) {myCenterY = y;}
+  public int getY() {return (int)myCenterY;}
+  public void setDirectionX(double x) {myDirectionX = x;}   
+  public double getDirectionX() {return myDirectionX;}
+  public void setDirectionY(double y) {myDirectionY = y;}
+  public double getDirectionY() {return myDirectionY;}
+  public void setPointDirection(int degrees) {myPointDirection = degrees;}
+  public double getPointDirection() {return myPointDirection;}
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
