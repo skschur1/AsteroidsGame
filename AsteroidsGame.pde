@@ -9,13 +9,13 @@ public void setup()
   for (int i = 0; i < keys.length; i++)
     keys[i] = false;
   for (int o = 0; o < stars.length; o++)
-  {
     stars[o] = new Star();
-  }
 }
 public void draw() 
 {
   background(0);
+  for (int u = 0; u < stars.length; u++)
+    stars[u].show();
   heart_of_gold.move();
   if (keys[0])
     heart_of_gold.accelerate(0.25);
@@ -25,9 +25,21 @@ public void draw()
     heart_of_gold.rotate(-4);
   if (keys[3])
     heart_of_gold.rotate(4);
-  if (keyPressed && key == ' ')
+  if (keyPressed && key == 'e')
     heart_of_gold.improbabilityDrive();
+  if (keyPressed && key == ' ')
+  {
+    Bullet pewPew = new Bullet();
+    pewPew.setX(heart_of_gold.getX());
+    pewPew.setY(heart_of_gold.getY());
+    pewPew.setDirectionX(heart_of_gold.getDirectionX());
+    pewPew.setDirectionY(heart_of_gold.getDirectionY());
+    pewPew.setPointDirection((int)heart_of_gold.getPointDirection());
+    pewPew.accelerate()
+    pewPew.show();
+  }
   heart_of_gold.show();
+
 }
 public void keyPressed()
 {
@@ -90,9 +102,9 @@ class SpaceShip extends Floater
       setPointDirection((int)(Math.random()*360));
     }
 }
-class bullets extends Floater
+class Bullet extends Floater
 {
-  public bullets()
+  public Bullet()
   {
     corners = 4;
     xCorners = new int[4];
@@ -103,8 +115,9 @@ class bullets extends Floater
     yCorners[1] = 5;
     xCorners[2] = -5;
     yCorners[2] = 0;
-    xCorners[3] = -5;
-    yCorners[3] =0;
+    xCorners[3] = 0;
+    yCorners[3] = -5;
+    myColor = color(255);
   }
   public void setX(int x) {myCenterX = x;}
   public int getX() {return (int)myCenterX;}
@@ -196,19 +209,15 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
 class Star
 {
   private int myX, myY;
-  public star()
+  public Star()
   {
-    myX = 0;
-    myY = 0;
+    myX = (int)(Math.random()*600);
+    myY = (int)(Math.random()*600);
   }
-  public setX(int x) {myX = x;}
-  public int getX() {return myX;}
-  public setY (int y) {myY = y;}
-  public int getY() {return myY;}
   public void show()
   {
     stroke(255);
-    point(myx, myY);
+    point(myX, myY);
     stroke(0);
   }
 }
