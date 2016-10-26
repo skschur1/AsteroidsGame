@@ -1,6 +1,7 @@
 SpaceShip heart_of_gold = new SpaceShip();
 boolean[] keys;
 Star[] stars = new Star[100];
+boolean bullets = false;
 public void setup() 
 {
   size(600, 600);
@@ -27,17 +28,6 @@ public void draw()
     heart_of_gold.rotate(4);
   if (keyPressed && key == 'e')
     heart_of_gold.improbabilityDrive();
-  if (keyPressed && key == ' ')
-  {
-    Bullet pewPew = new Bullet();
-    pewPew.setX(heart_of_gold.getX());
-    pewPew.setY(heart_of_gold.getY());
-    pewPew.setDirectionX(heart_of_gold.getDirectionX());
-    pewPew.setDirectionY(heart_of_gold.getDirectionY());
-    pewPew.setPointDirection((int)heart_of_gold.getPointDirection());
-    pewPew.accelerate()
-    pewPew.show();
-  }
   heart_of_gold.show();
 
 }
@@ -101,10 +91,15 @@ class SpaceShip extends Floater
       setDirectionX(0);
       setPointDirection((int)(Math.random()*360));
     }
+    public void shoot()
+    {
+      Bullet pewPew = new Bullet((int)myCenterX,(int) myCenterY, myPointDirection, myDirectionX, myDirectionY);
+      bullets = true;
+    }
 }
 class Bullet extends Floater
 {
-  public Bullet()
+  public Bullet(int x, int y, double pointDirection, double directionX, double directionY)
   {
     corners = 4;
     xCorners = new int[4];
@@ -118,6 +113,12 @@ class Bullet extends Floater
     xCorners[3] = 0;
     yCorners[3] = -5;
     myColor = color(255);
+    myCenterX = x;
+    myCenterY = y;
+    myPointDirection = pointDirection;
+    myDirectionX = directionX;
+    myDirectionY = directionY;
+    accelerate(0.2);
   }
   public void setX(int x) {myCenterX = x;}
   public int getX() {return (int)myCenterX;}
