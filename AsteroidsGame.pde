@@ -27,9 +27,13 @@ public void draw()
   if (keys[3])
     heart_of_gold.rotate(4);
   if (keyPressed && key == 'e')
+  {
     heart_of_gold.improbabilityDrive();
+    for(int i = 0; i < stars.length; i++)
+      stars[i].reposition();
+  }
   heart_of_gold.show();
-
+  
 }
 public void keyPressed()
 {
@@ -131,6 +135,44 @@ class Bullet extends Floater
   public void setPointDirection(int degrees) {myPointDirection = degrees;}
   public double getPointDirection() {return myPointDirection;}
 }
+class Asteroid extends Floater()
+{
+  public Asteroid()
+  {
+    corners = 11;
+    xCorners[0] = 10;
+    yCorners[0] = 0;
+    xCorners[1] = 7;
+    yCorners[1] = -4;
+    xCorners[2] = 0;
+    yCorners[2] = -10;
+    xCorners[3] = -6;
+    yCorners[3] = -8;
+    xCorners[4] = -8;
+    yCorners[4] = -3;
+    xCorners[5] = -10;
+    yCorners[5] = 0;
+    xCorners[6] = -5;
+    yCorners[6] = 5;
+    xCorners[7] = 0;
+    yCorners[7] = 10;
+    xCorners[8] = 3;
+    yCorners[8] = 11;
+    xCorners[9] = 6;
+    yCorners[9] = 9;
+    xCorners[10] = 9;
+    yCorners[10] = 5;
+    myColor = color(137, 84 15);
+    respawn();
+    public void respawn()
+    {
+      myCenterX = myCenterY = Math.random()*600;
+      myDirectionX = Math.random()*5;
+      myDirectionY = Math.random()*5;
+      myPointDirection = Math.random()*360;
+    }
+  }
+}
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
@@ -212,13 +254,17 @@ class Star
   private int myX, myY;
   public Star()
   {
-    myX = (int)(Math.random()*600);
-    myY = (int)(Math.random()*600);
+    reposition();
   }
   public void show()
   {
     stroke(255);
     point(myX, myY);
     stroke(0);
+  }
+  public void reposition()
+  {
+    myX = (int)(Math.random()*600);
+    myY = (int)(Math.random()*600);
   }
 }
