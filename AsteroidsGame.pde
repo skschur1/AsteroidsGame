@@ -45,7 +45,7 @@ public void keyPressed()
     keys[2] = true;
   if (key == 'd')
     keys[3] = true;
-  if (keys[4] = 'e')
+  if (key == 'e')
     keys[4] = true;
 }
 public void keyReleased()
@@ -58,7 +58,7 @@ public void keyReleased()
     keys[2] = false;
   if (key == 'd')
     keys[3] = false;
-  if (keys[4] = 'e')
+  if (key == 'e')
     keys[4] = false;
 }
 class SpaceShip extends Floater  
