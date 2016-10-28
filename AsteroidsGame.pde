@@ -6,7 +6,7 @@ public void setup()
 {
   size(600, 600);
   background(0);
-  keys = new boolean[4];
+  keys = new boolean[5];
   for (int i = 0; i < keys.length; i++)
     keys[i] = false;
   for (int o = 0; o < stars.length; o++)
@@ -26,7 +26,7 @@ public void draw()
     heart_of_gold.rotate(-4);
   if (keys[3])
     heart_of_gold.rotate(4);
-  if (keyPressed && key == 'e')
+  if (keys[4])
   {
     heart_of_gold.improbabilityDrive();
     for(int i = 0; i < stars.length; i++)
@@ -45,6 +45,8 @@ public void keyPressed()
     keys[2] = true;
   if (key == 'd')
     keys[3] = true;
+  if (keys[4] = 'e')
+    keys[4] = true;
 }
 public void keyReleased()
 {
@@ -56,6 +58,8 @@ public void keyReleased()
     keys[2] = false;
   if (key == 'd')
     keys[3] = false;
+  if (keys[4] = 'e')
+    keys[4] = false;
 }
 class SpaceShip extends Floater  
 {   
