@@ -135,7 +135,7 @@ class Bullet extends Floater
   public void setPointDirection(int degrees) {myPointDirection = degrees;}
   public double getPointDirection() {return myPointDirection;}
 }
-class Asteroid extends Floater()
+/*class Asteroid extends Floater()
 {
   public Asteroid()
   {
@@ -172,7 +172,7 @@ class Asteroid extends Floater()
       myPointDirection = Math.random()*360;
     }
   }
-}
+}*/
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
