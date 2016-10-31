@@ -1,7 +1,7 @@
 SpaceShip heart_of_gold = new SpaceShip();
 boolean[] keys;
 Star[] stars = new Star[100];
-boolean bullets = false;
+Asteroid test = new Asteroid();
 public void setup() 
 {
   size(600, 600);
@@ -15,6 +15,8 @@ public void setup()
 public void draw() 
 {
   background(0);
+    test.show();
+  test.move();
   for (int u = 0; u < stars.length; u++)
     stars[u].show();
   heart_of_gold.move();
@@ -99,11 +101,6 @@ class SpaceShip extends Floater
       setDirectionX(0);
       setPointDirection((int)(Math.random()*360));
     }
-    public void shoot()
-    {
-      Bullet pewPew = new Bullet((int)myCenterX,(int) myCenterY, myPointDirection, myDirectionX, myDirectionY);
-      bullets = true;
-    }
 }
 class Bullet extends Floater
 {
@@ -139,11 +136,13 @@ class Bullet extends Floater
   public void setPointDirection(int degrees) {myPointDirection = degrees;}
   public double getPointDirection() {return myPointDirection;}
 }
-/*class Asteroid extends Floater()
+class Asteroid extends Floater
 {
   public Asteroid()
   {
     corners = 11;
+    xCorners = new int[11];
+    yCorners = new int[11];
     xCorners[0] = 10;
     yCorners[0] = 0;
     xCorners[1] = 7;
@@ -166,8 +165,9 @@ class Bullet extends Floater
     yCorners[9] = 9;
     xCorners[10] = 9;
     yCorners[10] = 5;
-    myColor = color(137, 84 15);
+    myColor = color(137, 84, 15);
     respawn();
+  }
     public void respawn()
     {
       myCenterX = myCenterY = Math.random()*600;
@@ -175,8 +175,45 @@ class Bullet extends Floater
       myDirectionY = Math.random()*5;
       myPointDirection = Math.random()*360;
     }
-  }
-}*/
+    public void move ()   //move the floater in the current direction of travel
+    {      
+      //change the x and y coordinates by myDirectionX and myDirectionY  
+      if (Math.random() > .5)
+        rotate(-2);
+      else 
+        rotate(2);    
+      myCenterX += myDirectionX;    
+      myCenterY += myDirectionY;     
+
+      //wrap around screen    
+      if(myCenterX >width)
+      {     
+        myCenterX = 0;    
+      }    
+      else if (myCenterX<0)
+      {     
+        myCenterX = width;    
+      }    
+      if(myCenterY >height)
+      {    
+        myCenterY = 0;    
+      }   
+      else if (myCenterY < 0)
+      {     
+        myCenterY = height;    
+      }   
+  }   
+    public void setX(int x) {myCenterX = x;}
+    public int getX() {return (int)myCenterX;}
+    public void setY(int y) {myCenterY = y;}
+    public int getY() {return (int)myCenterY;}
+    public void setDirectionX(double x) {myDirectionX = x;}   
+    public double getDirectionX() {return myDirectionX;}
+    public void setDirectionY(double y) {myDirectionY = y;}
+    public double getDirectionY() {return myDirectionY;}
+    public void setPointDirection(int degrees) {myPointDirection = degrees;}
+    public double getPointDirection() {return myPointDirection;}
+}
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
