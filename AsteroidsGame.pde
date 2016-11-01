@@ -1,7 +1,7 @@
 SpaceShip heart_of_gold = new SpaceShip();
 boolean[] keys;
 Star[] stars = new Star[100];
-Asteroid test = new Asteroid();
+Asteroid[] rocks = new Asteroid[10];
 public void setup() 
 {
   size(600, 600);
@@ -11,12 +11,17 @@ public void setup()
     keys[i] = false;
   for (int o = 0; o < stars.length; o++)
     stars[o] = new Star();
+  for (int u = 0; u < rocks.length; u++)
+    rocks[u] = new Asteroid();
 }
 public void draw() 
 {
   background(0);
-    test.show();
-  test.move();
+  for (int i = 0; i < rocks.length; i++)
+  {
+    rocks[i].move();
+    rocks[i].show();
+  }
   for (int u = 0; u < stars.length; u++)
     stars[u].show();
   heart_of_gold.move();
@@ -138,6 +143,7 @@ class Bullet extends Floater
 }
 class Asteroid extends Floater
 {
+  int rotSpeed;
   public Asteroid()
   {
     corners = 11;
@@ -166,42 +172,21 @@ class Asteroid extends Floater
     xCorners[10] = 9;
     yCorners[10] = 5;
     myColor = color(137, 84, 15);
+    rotSpeed = (int)(Math.random()*11 - 6);
     respawn();
   }
     public void respawn()
     {
       myCenterX = myCenterY = Math.random()*600;
-      myDirectionX = Math.random()*5;
-      myDirectionY = Math.random()*5;
+      myDirectionX = Math.random()*4;
+      myDirectionY = Math.random()*4;
       myPointDirection = Math.random()*360;
     }
     public void move ()   //move the floater in the current direction of travel
     {      
       //change the x and y coordinates by myDirectionX and myDirectionY  
-      if (Math.random() > .5)
-        rotate(-2);
-      else 
-        rotate(2);    
-      myCenterX += myDirectionX;    
-      myCenterY += myDirectionY;     
-
-      //wrap around screen    
-      if(myCenterX >width)
-      {     
-        myCenterX = 0;    
-      }    
-      else if (myCenterX<0)
-      {     
-        myCenterX = width;    
-      }    
-      if(myCenterY >height)
-      {    
-        myCenterY = 0;    
-      }   
-      else if (myCenterY < 0)
-      {     
-        myCenterY = height;    
-      }   
+      rotate(rotSpeed);
+      super.move(); 
   }   
     public void setX(int x) {myCenterX = x;}
     public int getX() {return (int)myCenterX;}
