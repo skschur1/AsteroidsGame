@@ -1,12 +1,11 @@
 SpaceShip heart_of_gold = new SpaceShip();
-boolean[] keys;
-Star[] stars = new Star[100];
-Asteroid[] rocks = new Asteroid[10];
+boolean [] keys = new boolean[5];
+Star [] stars = new Star[100];
+Asteroid [] rocks = new Asteroid[10];
 public void setup() 
 {
   size(600, 600);
   background(0);
-  keys = new boolean[5];
   for (int i = 0; i < keys.length; i++)
     keys[i] = false;
   for (int o = 0; o < stars.length; o++)
@@ -38,9 +37,10 @@ public void draw()
     heart_of_gold.improbabilityDrive();
     for(int i = 0; i < stars.length; i++)
       stars[i].reposition();
+    for(int i = 0; i < rocks.length; i++)
+      rocks[i].respawn();
   }
   heart_of_gold.show();
-  
 }
 public void keyPressed()
 {
@@ -177,7 +177,8 @@ class Asteroid extends Floater
   }
     public void respawn()
     {
-      myCenterX = myCenterY = Math.random()*600;
+      myCenterX = Math.random()*600;
+      myCenterY = Math.random()*600;
       myDirectionX = Math.random()*4;
       myDirectionY = Math.random()*4;
       myPointDirection = Math.random()*360;
