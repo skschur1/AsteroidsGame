@@ -2,6 +2,7 @@ SpaceShip heart_of_gold = new SpaceShip();
 boolean [] keys = new boolean[5];
 Star [] stars = new Star[100];
 Asteroid [] rocks = new Asteroid[10];
+boolean crashed = false;
 public void setup() 
 {
   size(600, 600);
@@ -16,31 +17,40 @@ public void setup()
 public void draw() 
 {
   background(0);
-  for (int i = 0; i < rocks.length; i++)
+  if (crashed)
   {
-    rocks[i].move();
-    rocks[i].show();
+    textAlign(CENTER,CENTER);
+    text("Game Over", 300, 300);
   }
-  for (int u = 0; u < stars.length; u++)
-    stars[u].show();
-  heart_of_gold.move();
-  if (keys[0])
-    heart_of_gold.accelerate(0.25);
-  if (keys[1])
-    heart_of_gold.accelerate(-0.25);
-  if (keys[2])
-    heart_of_gold.rotate(-4);
-  if (keys[3])
-    heart_of_gold.rotate(4);
-  if (keys[4])
+  else
   {
-    heart_of_gold.improbabilityDrive();
-    for(int i = 0; i < stars.length; i++)
-      stars[i].reposition();
-    for(int i = 0; i < rocks.length; i++)
-      rocks[i].respawn();
+    for (int i = 0; i < rocks.length; i++)
+    {
+      rocks[i].move();
+      rocks[i].show();
+    }
+    for (int u = 0; u < stars.length; u++)
+      stars[u].show();
+    heart_of_gold.move();
+    if (keys[0])
+      heart_of_gold.accelerate(0.25);
+    if (keys[1])
+      heart_of_gold.accelerate(-0.25);
+    if (keys[2])
+      heart_of_gold.rotate(-4);
+    if (keys[3])
+      heart_of_gold.rotate(4);
+    if (keys[4])
+    {
+      heart_of_gold.improbabilityDrive();
+      for(int i = 0; i < stars.length; i++)
+        stars[i].reposition();
+      for(int i = 0; i < rocks.length; i++)
+        rocks[i].respawn();
+    }
+    heart_of_gold.show();
   }
-  heart_of_gold.show();
+  println(crashed);
 }
 public void keyPressed()
 {
@@ -106,6 +116,26 @@ class SpaceShip extends Floater
       setDirectionX(0);
       setPointDirection((int)(Math.random()*360));
     }
+  public void show ()  //Draws the floater at the current position  
+  {             
+    fill(myColor);   
+    stroke(myColor);    
+    //convert degrees to radians for sin and cos         
+    double dRadians = myPointDirection*(Math.PI/180);                 
+    int xRotatedTranslated, yRotatedTranslated;    
+    beginShape();         
+    for(int nI = 0; nI < corners; nI++)    
+    {     
+      //rotate and translate the coordinates of the floater using current direction 
+      xRotatedTranslated = (int)((xCorners[nI]* Math.cos(dRadians)) - (yCorners[nI] * Math.sin(dRadians))+myCenterX);     
+      yRotatedTranslated = (int)((xCorners[nI]* Math.sin(dRadians)) + (yCorners[nI] * Math.cos(dRadians))+myCenterY);      
+      vertex(xRotatedTranslated,yRotatedTranslated);
+      // crash mechanics  
+      if (get(xRotatedTranslated,yRotatedTranslated) == color(137, 84, 15))
+        crashed = false;
+    }   
+    endShape(CLOSE);  
+  }   
 }
 class Bullet extends Floater
 {
