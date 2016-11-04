@@ -2,7 +2,7 @@ SpaceShip heart_of_gold = new SpaceShip();
 boolean [] keys = new boolean[5];
 Star [] stars = new Star[100];
 Asteroid [] rocks = new Asteroid[10];
-boolean crashed = false;
+boolean crashed = true;
 public void setup() 
 {
   size(600, 600);
@@ -21,6 +21,8 @@ public void draw()
   {
     textAlign(CENTER,CENTER);
     text("Game Over", 300, 300);
+    if (mousePressed || keyPressed)
+      crashed = false;
   }
   else
   {
@@ -116,27 +118,10 @@ class SpaceShip extends Floater
       setDirectionX(0);
       setPointDirection((int)(Math.random()*360));
     }
-  public void show ()  //Draws the floater at the current position  
-  {             
-    fill(myColor);   
-    stroke(myColor);    
-    //convert degrees to radians for sin and cos         
-    double dRadians = myPointDirection*(Math.PI/180);                 
-    int xRotatedTranslated, yRotatedTranslated;    
-    beginShape();         
-    for(int nI = 0; nI < corners; nI++)    
-    {     
-      //rotate and translate the coordinates of the floater using current direction 
-      xRotatedTranslated = (int)((xCorners[nI]* Math.cos(dRadians)) - (yCorners[nI] * Math.sin(dRadians))+myCenterX);     
-      yRotatedTranslated = (int)((xCorners[nI]* Math.sin(dRadians)) + (yCorners[nI] * Math.cos(dRadians))+myCenterY);      
-      vertex(xRotatedTranslated,yRotatedTranslated);
-      // crash mechanics  
-      if (get(xRotatedTranslated,yRotatedTranslated) == color(137, 84, 15))
-        crashed = false;
-    }   
-    endShape(CLOSE);  
-  }   
-}
+    public crash()
+    {
+      crashed = true;
+    }
 class Bullet extends Floater
 {
   public Bullet(int x, int y, double pointDirection, double directionX, double directionY)
