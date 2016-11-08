@@ -1,7 +1,7 @@
 SpaceShip heart_of_gold = new SpaceShip();
 boolean [] keys = new boolean[5];
 Star [] stars = new Star[100];
-Asteroid [] rocks = new Asteroid[10];
+ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 boolean crashed = false;
 public void setup() 
 {
@@ -11,8 +11,8 @@ public void setup()
     keys[i] = false;
   for (int o = 0; o < stars.length; o++)
     stars[o] = new Star();
-  for (int u = 0; u < rocks.length; u++)
-    rocks[u] = new Asteroid();
+  for (int u = 0; u < 10; u++)
+    rocks.add(new Asteroid());
 }
 public void draw() 
 {
@@ -21,15 +21,13 @@ public void draw()
   {
     textAlign(CENTER,CENTER);
     text("Game Over", 300, 300);
-    if (mousePressed || keyPressed)
-      crashed = false;
   }
   else
   {
-    for (int i = 0; i < rocks.length; i++)
+    for (int i = 0; i < rocks.size(); i++)
     {
-      rocks[i].move();
-      rocks[i].show();
+      rocks.get(i).move();
+      rocks.get(i).show();
     }
     for (int u = 0; u < stars.length; u++)
       stars[u].show();
@@ -47,8 +45,8 @@ public void draw()
       heart_of_gold.improbabilityDrive();
       for(int i = 0; i < stars.length; i++)
         stars[i].reposition();
-      for(int i = 0; i < rocks.length; i++)
-        rocks[i].respawn();
+      for(int i = 0; i < rocks.size(); i++)
+        rocks.get(i).respawn();
     }
     heart_of_gold.show();
   }
@@ -79,6 +77,15 @@ public void keyReleased()
     keys[3] = false;
   if (key == 'e')
     keys[4] = false;
+}
+void mouseClicked()
+{
+  if (crashed)
+  {
+    crashed = false;
+    for (int s = 0; s < rocks.size(); s++)
+      rocks.get(s).respawn();
+  }
 }
 class SpaceShip extends Floater  
 {   
@@ -117,10 +124,6 @@ class SpaceShip extends Floater
       setDirectionY(0);
       setDirectionX(0);
       setPointDirection((int)(Math.random()*360));
-    }
-    public void crash()
-    {
-      crashed = true;
     }
   }
 class Bullet extends Floater
@@ -195,14 +198,17 @@ class Asteroid extends Floater
   {      
     myCenterX = Math.random()*600;
     myCenterY = Math.random()*600;
-    myDirectionX = Math.random()*4;
-    myDirectionY = Math.random()*4;
+    myDirectionX = Math.random()*8 - 4;
+    myDirectionY = Math.random()*8 -4;
     myPointDirection = Math.random()*360;
   }
   public void move ()   //move the floater in the current direction of travel
   {      
     //change the x and y coordinates by myDirectionX and myDirectionY  
     rotate(rotSpeed);
+    //crash bing boom
+    if (dist((int)myCenterX, (int)myCenterY, (int)heart_of_gold.getX(),(int) heart_of_gold.getY()) < 20)
+      crashed = true;
     super.move(); 
   }
   public void setX(int x) {myCenterX = x;}
