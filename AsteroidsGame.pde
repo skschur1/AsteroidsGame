@@ -72,7 +72,7 @@ public void keyReleased()
   if (key == 's')
     keys[1] = false;
   if (key == 'a')
-    keys[2] = false;
+    keys[2] = false;  
   if (key == 'd')
     keys[3] = false;
   if (key == 'e')
@@ -84,7 +84,15 @@ void mouseClicked()
   {
     crashed = false;
     for (int s = 0; s < rocks.size(); s++)
+    {
       rocks.get(s).respawn();
+      stars[s].reposition();
+      heart_of_gold.setX(300);
+      heart_of_gold.setY(300);
+      heart_of_gold.setDirectionY(0);
+      heart_of_gold.setDirectionX(0);
+      heart_of_gold.setPointDirection(0);
+    }
   }
 }
 class SpaceShip extends Floater  
@@ -198,8 +206,8 @@ class Asteroid extends Floater
   {      
     myCenterX = Math.random()*600;
     myCenterY = Math.random()*600;
-    myDirectionX = Math.random()*8 - 4;
-    myDirectionY = Math.random()*8 -4;
+    myDirectionX = Math.random()*4 - 2;
+    myDirectionY = Math.random()*4 -2;
     myPointDirection = Math.random()*360;
   }
   public void move ()   //move the floater in the current direction of travel
