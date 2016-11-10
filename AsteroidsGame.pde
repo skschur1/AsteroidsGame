@@ -24,10 +24,20 @@ public void draw()
   }
   else
   {
+    if (rocks.size() == 0)
+    {
+      for(int i = 0; i < 11; i++)
+        rocks.add(new Asteroid());
+    }
     for (int i = 0; i < rocks.size(); i++)
     {
       rocks.get(i).move();
       rocks.get(i).show();
+      if (rocks.get(i).crash())
+      {
+        rocks.remove(i);
+        i--;
+      }
     }
     for (int u = 0; u < stars.length; u++)
       stars[u].show();
@@ -50,7 +60,6 @@ public void draw()
     }
     heart_of_gold.show();
   }
-  println(crashed);
 }
 public void keyPressed()
 {
@@ -214,10 +223,14 @@ class Asteroid extends Floater
   {      
     //change the x and y coordinates by myDirectionX and myDirectionY  
     rotate(rotSpeed);
-    //crash bing boom
+    super.move();
+  }
+  public boolean crash()
+  {
     if (dist((int)myCenterX, (int)myCenterY, (int)heart_of_gold.getX(),(int) heart_of_gold.getY()) < 20)
-      crashed = true;
-    super.move(); 
+      return true;
+    else 
+      return false;
   }
   public void setX(int x) {myCenterX = x;}
   public int getX() {return (int)myCenterX;}
