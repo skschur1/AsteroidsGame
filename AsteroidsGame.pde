@@ -12,7 +12,11 @@ public void setup()
   for (int o = 0; o < stars.length; o++)
     stars[o] = new Star();
   for (int u = 0; u < 10; u++)
+  {
     rocks.add(new Asteroid());
+    if (dist(rocks.get(u).getX(), rocks.get(u).getY(), heart_of_gold.getX(), heart_of_gold.getY()) < 50)
+      rocks.get(u).respawn();
+  }
 }
 public void draw() 
 {
@@ -218,6 +222,8 @@ class Asteroid extends Floater
     myDirectionX = Math.random()*4 - 2;
     myDirectionY = Math.random()*4 -2;
     myPointDirection = Math.random()*360;
+    if (dist((int)myCenterX,(int) myCenterY, heart_of_gold.getX(), heart_of_gold.getY()) < 50)
+      respawn();
   }
   public void move ()   //move the floater in the current direction of travel
   {      
