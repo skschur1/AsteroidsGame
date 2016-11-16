@@ -1,7 +1,8 @@
 SpaceShip heart_of_gold = new SpaceShip();
-boolean [] keys = new boolean[5];
+boolean [] keys = new boolean[6];
 Star [] stars = new Star[100];
 ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
+ArrayList <Bullet> pewPew = new ArrayList <Bullet>();
 boolean crashed = false;
 public void setup() 
 {
@@ -33,6 +34,17 @@ public void draw()
       for(int i = 0; i < 11; i++)
         rocks.add(new Asteroid());
     }
+    for (int i = 0; i < pewPew.size(); i++)
+    {
+      pewPew.get(i).move();
+      pewPew.get(i).show();
+      if (pewPew.get(i).getX() > 600 || pewPew.get(i).getX() < 0 || pewPew.get(i).getY() < 0 || pewPew.get(i).getY() > 600)
+      {
+        pewPew.remove(i);
+        i--;
+      }
+
+    }
     for (int i = 0; i < rocks.size(); i++)
     {
       rocks.get(i).move();
@@ -62,6 +74,8 @@ public void draw()
       for(int i = 0; i < rocks.size(); i++)
         rocks.get(i).respawn();
     }
+    if (keys[5])
+      heart_of_gold.shoot();
     heart_of_gold.show();
   }
 }
@@ -77,6 +91,8 @@ public void keyPressed()
     keys[3] = true;
   if (key == 'e')
     keys[4] = true;
+  if (key == ' ')
+    keys[5] = true;
 }
 public void keyReleased()
 {
@@ -90,6 +106,8 @@ public void keyReleased()
     keys[3] = false;
   if (key == 'e')
     keys[4] = false;
+  if (key == ' ')
+    keys[5] = false;
 }
 void mouseClicked()
 {
@@ -146,6 +164,10 @@ class SpaceShip extends Floater
       setDirectionX(0);
       setPointDirection((int)(Math.random()*360));
     }
+    public void shoot()
+    {
+      pewPew.add(new Bullet(heart_of_gold.getX(), heart_of_gold.getY(), heart_of_gold.getPointDirection(), heart_of_gold.getDirectionX(), heart_of_gold.getDirectionY()));
+    }
   }
 class Bullet extends Floater
 {
@@ -154,21 +176,21 @@ class Bullet extends Floater
     corners = 4;
     xCorners = new int[4];
     yCorners = new int[4];
-    xCorners[0] = 5;
+    xCorners[0] = 2;
     yCorners[0] = 0;
     xCorners[1] = 0;
-    yCorners[1] = 5;
-    xCorners[2] = -5;
+    yCorners[1] = 2;
+    xCorners[2] = -2;
     yCorners[2] = 0;
     xCorners[3] = 0;
-    yCorners[3] = -5;
+    yCorners[3] = -2;
     myColor = color(255);
     myCenterX = x;
     myCenterY = y;
     myPointDirection = pointDirection;
     myDirectionX = directionX;
     myDirectionY = directionY;
-    accelerate(0.2);
+    accelerate(5);
   }
   public void setX(int x) {myCenterX = x;}
   public int getX() {return (int)myCenterX;}
@@ -180,6 +202,12 @@ class Bullet extends Floater
   public double getDirectionY() {return myDirectionY;}
   public void setPointDirection(int degrees) {myPointDirection = degrees;}
   public double getPointDirection() {return myPointDirection;}
+  public void move ()   //move the floater in the current direction of travel
+  {      
+    //change the x and y coordinates by myDirectionX and myDirectionY       
+    myCenterX += myDirectionX;    
+    myCenterY += myDirectionY; 
+  }
 }
 class Asteroid extends Floater
 {
