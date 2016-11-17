@@ -4,6 +4,7 @@ Star [] stars = new Star[100];
 ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 ArrayList <Bullet> pewPew = new ArrayList <Bullet>();
 boolean crashed = false;
+int framecount = 0;
 public void setup() 
 {
   size(600, 600);
@@ -75,7 +76,11 @@ public void draw()
         rocks.get(i).respawn();
     }
     if (keys[5])
-      heart_of_gold.shoot();
+    {
+      framecount++;
+      if (framecount % 15 == 0)
+        heart_of_gold.shoot();
+    }
     heart_of_gold.show();
   }
 }
@@ -107,9 +112,12 @@ public void keyReleased()
   if (key == 'e')
     keys[4] = false;
   if (key == ' ')
+  {
     keys[5] = false;
+    framecount = 0;
+  }
 }
-void mouseClicked()
+public void mouseClicked()
 {
   if (crashed)
   {
