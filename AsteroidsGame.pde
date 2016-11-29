@@ -55,6 +55,11 @@ public void draw()
         rocks.remove(i);
         i--;
       }
+      if (rocks.get(i).destroy())
+      {
+        rocks.remove(i);
+        i--;
+      }
     }
     for (int u = 0; u < stars.length; u++)
       stars[u].show();
@@ -74,12 +79,14 @@ public void draw()
         stars[i].reposition();
       for(int i = 0; i < rocks.size(); i++)
         rocks.get(i).respawn();
+      while (pewPew.size() > 0)
+        pewPew.remove(0);
     }
     if (keys[5])
     {
-      framecount++;
-      if (framecount % 15 == 0)
+      if (framecount % 10 == 0)
         heart_of_gold.shoot();
+      framecount++; 
     }
     heart_of_gold.show();
   }
@@ -273,6 +280,13 @@ class Asteroid extends Floater
       return true;
     else 
       return false;
+  }
+  public boolean destroy()
+  {
+    for (int i = 0; i < pewPew.size(); i++)
+      if (dist((int)myCenterX, (int)myCenterY, pewPew.get(i).getX(), pewPew.get(i).getY()) < 15)
+        return true;
+    return false;
   }
   public void setX(int x) {myCenterX = x;}
   public int getX() {return (int)myCenterX;}
