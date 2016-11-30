@@ -5,6 +5,9 @@ ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 ArrayList <Bullet> pewPew = new ArrayList <Bullet>();
 boolean crashed = false;
 int framecount = 0;
+int score = 0;
+int health = 5;
+int ammo = 10;
 public void setup() 
 {
   size(600, 600);
@@ -53,12 +56,19 @@ public void draw()
       if (rocks.get(i).crash())
       {
         rocks.remove(i);
-        i--;
+        if (rocks.size() > 0)
+          i--;
+        health--;
+        score--;
       }
-      if (rocks.get(i).destroy())
+      if (rocks.size() > 0)
       {
-        rocks.remove(i);
-        i--;
+        if (rocks.get(i).destroy())
+        {
+          rocks.remove(i);
+          score++;
+          i--;
+        }
       }
     }
     for (int u = 0; u < stars.length; u++)
@@ -84,11 +94,21 @@ public void draw()
     }
     if (keys[5])
     {
-      if (framecount % 10 == 0)
+      if (framecount % 10 == 0 && ammo > 0)
+      {
         heart_of_gold.shoot();
-      framecount++; 
+        ammo--;
+      } 
     }
+    if (!keys[5])
+    {
+      if (framecount % 10 == 0 && ammo < 10)
+        ammo++;
+
+    }
+    framecount++;
     heart_of_gold.show();
+
   }
 }
 public void keyPressed()
@@ -104,7 +124,10 @@ public void keyPressed()
   if (key == 'e')
     keys[4] = true;
   if (key == ' ')
+  {
     keys[5] = true;
+    framecount = 0;
+  }
 }
 public void keyReleased()
 {
