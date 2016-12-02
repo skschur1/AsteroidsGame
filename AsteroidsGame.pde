@@ -4,6 +4,7 @@ Star [] stars = new Star[100];
 ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 ArrayList <Bullet> pewPew = new ArrayList <Bullet>();
 boolean crashed = false;
+boolean shootingStability = true;
 int framecount = 0;
 int score = 0;
 int health = 5;
@@ -28,8 +29,8 @@ public void draw()
   background(0);
   if (crashed)
   {
-    textAlign(CENTER,CENTER);
-    text("Game Over", 300, 300);
+    fill(255);
+    text("Game Over", 265, 300);
   }
   else
   {
@@ -56,11 +57,14 @@ public void draw()
       if (rocks.get(i).crash())
       {
         rocks.remove(i);
-        if (rocks.size() > 0)
-          i--;
+        i--;
         health--;
+        if (health <= 0)
+          crashed = true;
         score--;
       }
+      while (i < 0)
+        i++;
       if (rocks.size() > 0)
       {
         if (rocks.get(i).destroy())
@@ -108,7 +112,22 @@ public void draw()
     }
     framecount++;
     heart_of_gold.show();
-
+    strokeWeight(3);
+    stroke(100);
+    rect(0, 550, 103 , 45);
+    noStroke();
+    fill(255, 0, 0);
+    rect(45, 586, 50, 8);
+    rect(45, 571, 50, 9);
+    fill(242, 223, 56);
+    rect(45, 586, ammo * 5, 8);
+    fill(0, 255 , 0);
+    rect(45, 571, health * 10, 9);
+    fill(0);
+    text("Ammo: " + ammo, 5, 595);
+    text("Health: " + health, 5, 580);
+    text("Score: " + score, 5, 565);
+    strokeWeight(1);
   }
 }
 public void keyPressed()
@@ -126,7 +145,11 @@ public void keyPressed()
   if (key == ' ')
   {
     keys[5] = true;
-    framecount = 0;
+    if (shootingStability)
+    {
+      framecount = 0;
+      shootingStability = false;
+    }
   }
 }
 public void keyReleased()
@@ -144,7 +167,11 @@ public void keyReleased()
   if (key == ' ')
   {
     keys[5] = false;
-    framecount = 0;
+    if (!shootingStability)
+    {
+      framecount = 0;
+      shootingStability = true;
+    }
   }
 }
 public void mouseClicked()
@@ -156,12 +183,19 @@ public void mouseClicked()
     {
       rocks.get(s).respawn();
       stars[s].reposition();
+    }
       heart_of_gold.setX(300);
       heart_of_gold.setY(300);
       heart_of_gold.setDirectionY(0);
       heart_of_gold.setDirectionX(0);
       heart_of_gold.setPointDirection(0);
-    }
+      health = 5;
+      ammo = 10;
+      score = 0;
+      while (pewPew.size() > 0)
+        pewPew.remove(0);
+      while (rocks.size() > 0)
+        rocks.remove(0);
   }
 }
 class SpaceShip extends Floater  
@@ -407,6 +441,7 @@ class Star
   }
   public void show()
   {
+    strokeWeight(1);
     stroke(255);
     point(myX, myY);
     stroke(0);
