@@ -30,7 +30,10 @@ public void draw()
   if (crashed)
   {
     fill(255);
-    text("Game Over", 265, 300);
+    textAlign(CENTER,CENTER);
+    text("Game Over", width / 2, height /2 );
+    text("Score: " + score, width /2, height / 2 + 15);
+    textAlign(BASELINE);
   }
   else
   {
